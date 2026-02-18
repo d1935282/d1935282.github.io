@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AxleWorks Garage Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="favicon.ico" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">AW</span>
+          <div>
+            <h1>AxleWorks</h1>
+            <p>Garage Management</p>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="#overview">Overview</a>
+          <a href="#customers">Customers</a>
+          <a href="#vehicles">Vehicles</a>
+          <a href="#jobs">Service Jobs</a>
+          <a href="#invoices">Invoices</a>
+        </nav>
+        <div class="sidebar-footer">
+          <h3>Today</h3>
+          <p id="todaySummary">Loading...</p>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="main-header">
+          <div>
+            <h2>Garage Operations Dashboard</h2>
+            <p>Track customers, vehicles, jobs, and invoices from one place.</p>
+          </div>
+          <button id="seedButton" class="primary-button">Reset Sample Data</button>
+        </header>
+
+        <section id="overview" class="section">
+          <div class="section-header">
+            <h3>Overview</h3>
+            <p>Real-time operational insight for your workshop.</p>
+          </div>
+          <div class="card-grid">
+            <div class="card">
+              <h4>Total Customers</h4>
+              <p class="metric" id="customerCount">0</p>
+              <span class="metric-sub">Active profiles</span>
+            </div>
+            <div class="card">
+              <h4>Vehicles Tracked</h4>
+              <p class="metric" id="vehicleCount">0</p>
+              <span class="metric-sub">Across all customers</span>
+            </div>
+            <div class="card">
+              <h4>Open Jobs</h4>
+              <p class="metric" id="openJobsCount">0</p>
+              <span class="metric-sub">Currently in progress</span>
+            </div>
+            <div class="card">
+              <h4>Monthly Revenue</h4>
+              <p class="metric" id="monthlyRevenue">$0</p>
+              <span class="metric-sub">Invoices issued this month</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="customers" class="section">
+          <div class="section-header">
+            <h3>Customer Management</h3>
+            <p>Maintain contact details and service history.</p>
+          </div>
+          <div class="section-grid">
+            <div class="panel">
+              <h4>Add Customer</h4>
+              <form id="customerForm" class="form-grid">
+                <label>
+                  Full Name
+                  <input type="text" name="name" required />
+                </label>
+                <label>
+                  Email
+                  <input type="email" name="email" required />
+                </label>
+                <label>
+                  Phone
+                  <input type="tel" name="phone" required />
+                </label>
+                <label class="full-width">
+                  Address
+                  <input type="text" name="address" required />
+                </label>
+                <button type="submit" class="primary-button">Save Customer</button>
+              </form>
+            </div>
+            <div class="panel">
+              <h4>Customer Directory</h4>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Contact</th>
+                      <th>Address</th>
+                    </tr>
+                  </thead>
+                  <tbody id="customerTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="vehicles" class="section">
+          <div class="section-header">
+            <h3>Vehicle Tracking</h3>
+            <p>Capture vehicle details and ownership.</p>
+          </div>
+          <div class="section-grid">
+            <div class="panel">
+              <h4>Add Vehicle</h4>
+              <form id="vehicleForm" class="form-grid">
+                <label>
+                  Customer
+                  <select name="customerId" id="vehicleCustomerSelect" required></select>
+                </label>
+                <label>
+                  Make
+                  <input type="text" name="make" required />
+                </label>
+                <label>
+                  Model
+                  <input type="text" name="model" required />
+                </label>
+                <label>
+                  Year
+                  <input type="number" name="year" min="1980" max="2050" required />
+                </label>
+                <label>
+                  VIN
+                  <input type="text" name="vin" required />
+                </label>
+                <label>
+                  Plate
+                  <input type="text" name="plate" required />
+                </label>
+                <button type="submit" class="primary-button">Save Vehicle</button>
+              </form>
+            </div>
+            <div class="panel">
+              <h4>Vehicles On File</h4>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Vehicle</th>
+                      <th>Owner</th>
+                      <th>VIN</th>
+                      <th>Plate</th>
+                    </tr>
+                  </thead>
+                  <tbody id="vehicleTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="jobs" class="section">
+          <div class="section-header">
+            <h3>Job Management</h3>
+            <p>Track service requests and workflow status.</p>
+          </div>
+          <div class="section-grid">
+            <div class="panel">
+              <h4>Create Job</h4>
+              <form id="jobForm" class="form-grid">
+                <label>
+                  Customer
+                  <select name="customerId" id="jobCustomerSelect" required></select>
+                </label>
+                <label>
+                  Vehicle
+                  <select name="vehicleId" id="jobVehicleSelect" required></select>
+                </label>
+                <label class="full-width">
+                  Job Description
+                  <input type="text" name="description" required />
+                </label>
+                <label>
+                  Assigned Technician
+                  <input type="text" name="assignedTech" required />
+                </label>
+                <label>
+                  Start Date
+                  <input type="date" name="startDate" required />
+                </label>
+                <label>
+                  Due Date
+                  <input type="date" name="dueDate" required />
+                </label>
+                <label>
+                  Labor Hours
+                  <input type="number" name="laborHours" min="0" step="0.1" required />
+                </label>
+                <label>
+                  Parts Cost ($)
+                  <input type="number" name="partsCost" min="0" step="0.01" required />
+                </label>
+                <button type="submit" class="primary-button">Create Job</button>
+              </form>
+            </div>
+            <div class="panel">
+              <h4>Active & Completed Jobs</h4>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Job</th>
+                      <th>Customer</th>
+                      <th>Vehicle</th>
+                      <th>Status</th>
+                      <th>Due</th>
+                    </tr>
+                  </thead>
+                  <tbody id="jobTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="invoices" class="section">
+          <div class="section-header">
+            <h3>Invoice Generation</h3>
+            <p>Issue invoices and track payments.</p>
+          </div>
+          <div class="section-grid">
+            <div class="panel">
+              <h4>Create Invoice</h4>
+              <form id="invoiceForm" class="form-grid">
+                <label>
+                  Job
+                  <select name="jobId" id="invoiceJobSelect" required></select>
+                </label>
+                <label>
+                  Labor Rate ($/hr)
+                  <input type="number" name="laborRate" min="0" step="0.01" required />
+                </label>
+                <label>
+                  Tax Rate (%)
+                  <input type="number" name="taxRate" min="0" step="0.1" required />
+                </label>
+                <label class="full-width">
+                  Notes
+                  <input type="text" name="notes" placeholder="Optional invoice notes" />
+                </label>
+                <button type="submit" class="primary-button">Generate Invoice</button>
+              </form>
+              <div class="invoice-preview" id="invoicePreview">
+                <h5>Invoice Preview</h5>
+                <p>Select a job to see the calculated totals.</p>
+              </div>
+            </div>
+            <div class="panel">
+              <h4>Invoice Ledger</h4>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Invoice</th>
+                      <th>Customer</th>
+                      <th>Vehicle</th>
+                      <th>Total</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="invoiceTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
